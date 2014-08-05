@@ -28,6 +28,8 @@ app.fetch = function(roomName, data){
       _.each( data.results, function(message){
         if(message.roomname === roomName){
           app.addMessage(message);
+        } else if(!roomName){
+          app.addMessage(message);
         }
       });
     }
