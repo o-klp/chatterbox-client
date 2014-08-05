@@ -3,8 +3,8 @@ var app = {
   server : "https://api.parse.com/1/classes/chatterbox",
 };
 
-app.init = function(){
-  this.fetch();
+app.init = function(roomName){
+  this.fetch(roomName);
 };
 
 
@@ -18,7 +18,7 @@ app.send = function(message){
   });
 };
 
-app.fetch = function(data){
+app.fetch = function(roomName, data){
   $.ajax({
     type: "GET",
     url: "https://api.parse.com/1/classes/chatterbox?order=-createdAt",
@@ -26,8 +26,9 @@ app.fetch = function(data){
     contentType: "text/plain",
     success: function(data){
       _.each( data.results, function(message){
-        console.log(message);
-        app.addMessage(message);
+        if(message.roomname === roomName){
+          app.addMessage(message);
+        }
       });
     }
   });
@@ -47,5 +48,5 @@ app.addMessage = function(message){
 }
 
 app.addRoom = function(roomName){
-  $('#roomSelect').append("<div><a href='#chats' class=" + roomName + '>'+ roomName+ '</a></div>' );
+  $('#roomSelect').append("<div><a href='#chats' class='roomLink' " + roomName + '>'+ roomName+ '</a></div>' );
 }

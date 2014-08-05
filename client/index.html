@@ -18,15 +18,15 @@
     $(document).ready(function(){
 
       $("#refresh").click(function(){
-        $('#chats').html("");
-        app.init()
+        app.clearMessages();
+        app.init();
       });
 
       $("#send").click(function(){
         var messageObj = {
           username: username,
           text: $("#message").val(),
-          roomname: "lobby"
+          roomname: $("#roomLink").text()
         };
         app.send(messageObj);
       });
@@ -35,6 +35,13 @@
         var roomName = $("#roomName").val();
         app.addRoom(roomName);
       });
+
+      $("body").on("click", '.roomLink', function(){
+        app.clearMessages();
+        console.log($(".roomLink").text());
+        app.init($(".roomLink").text());
+      });
+
     })
 
 
@@ -51,7 +58,7 @@
       <form>
         <input type="text" id="roomName" placeholder="enter room name here"></input>
       </form>
-      <button id="room">enter room</button>
+      <button id="room">add room</button>
       <div id="roomSelect"></div>
 
 
